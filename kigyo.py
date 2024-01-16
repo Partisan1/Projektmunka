@@ -3,12 +3,12 @@ import random
 
 GAME_WIDTH = 900 #szelesség (Ablak mérete)
 GAME_HEIGHT = 900 #hosszúság(Ablak mérete)
-SPEED = 80 #(Kígyó gyorsasága)
-SPACE_SIZE = 50
-BODY_PARTS = 4
-SNAKE_COLOR = "#0b99e0"
-FOOD_COLOR = "#FF0000"
-BACKGROUND_COLOR = "#000000"
+SPEED = 200 #(Kígyó gyorsasága)
+SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
+BODY_PARTS = 4 #Beállíthatjuk a 
+SNAKE_COLOR = "#0b99e0" #Kígyó színe
+FOOD_COLOR = "#FF0000" #Étel színe
+BACKGROUND_COLOR = "#000000" #Ablak színe
 
 
 
@@ -17,24 +17,24 @@ class Food:
 
     def __init__(self):
 
-        x = random.randint(0, (GAME_WIDTH / SPACE_SIZE)-1) * SPACE_SIZE
+        x = random.randint(0, (GAME_WIDTH / SPACE_SIZE)-1) * SPACE_SIZE #véletlenszerű étel generálás az x és y koordinátán a felületen.
         y = random.randint(0, (GAME_HEIGHT / SPACE_SIZE)-1) * SPACE_SIZE
 
-        self.coordinates = [x, y]
+        self.coordinates = [x, y] #tároljuk az érték koordinátáit
 
-        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food") #Classokat tegyük felülre
+        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")  #legömbölyítés, a vászonra elhelyezzük az ételt
 
-
+#Classokat tegyük felülre
 
 
 class Snake:
 
     def __init__(self):
-        self.body_size = BODY_PARTS
-        self.coordinates = []
-        self.squares = []
+        self.body_size = BODY_PARTS #kezdeti testrész érték
+        self.coordinates = [] #kígyó testrészének koordinátái
+        self.squares = [] #kígyó négyzetekre történő megjelenítés
 
-        for i in range(0, BODY_PARTS):
+        for i in range(0, BODY_PARTS): 
             self.coordinates.append([0, 0])
 
         for x, y in self.coordinates:
@@ -152,7 +152,7 @@ screen_height = window.winfo_screenheight()
 x = int((screen_width/2) - (window_width/2))
 y = int((screen_height/2) - (window_height/2))
 
-window.geometry(f"{window_width}x{window_height}+{x}+{y}") #nem lehet float érték, csak int. ezért castoltam
+window.geometry(f"{window_width}x{window_height}+{x}+{y}") 
 
 window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
