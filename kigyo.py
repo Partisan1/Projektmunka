@@ -1,9 +1,9 @@
 from tkinter import *
 import random
 
-GAME_WIDTH = 900
-GAME_HEIGHT = 900
-SPEED = 80
+GAME_WIDTH = 900 #szelesség (Ablak mérete)
+GAME_HEIGHT = 900 #hosszúság(Ablak mérete)
+SPEED = 80 #(Kígyó gyorsasága)
 SPACE_SIZE = 50
 BODY_PARTS = 4
 SNAKE_COLOR = "#0b99e0"
@@ -22,7 +22,9 @@ class Food:
 
         self.coordinates = [x, y]
 
-        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
+        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food") #Classokat tegyük felülre
+
+
 
 
 class Snake:
