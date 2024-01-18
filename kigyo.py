@@ -1,43 +1,46 @@
 from tkinter import *
 import random
-
-GAME_WIDTH = 600
-GAME_HEIGHT = 600
-SPEED = 80
-SPACE_SIZE = 50
-BODY_PARTS = 1
-SNAKE_COLOR = "#0b99e0"
-FOOD_COLOR = "#FF0000"
-BACKGROUND_COLOR = "#83eb13"
-
-
+#0b99e0  
 
 
 class Food:
 
     def __init__(self):
 
-        x = random.randint(0, (GAME_WIDTH / SPACE_SIZE)-1) * SPACE_SIZE
+        x = random.randint(0, (GAME_WIDTH / SPACE_SIZE)-1) * SPACE_SIZE #véletlenszerű étel generálás az x és y koordinátán a felületen.
         y = random.randint(0, (GAME_HEIGHT / SPACE_SIZE)-1) * SPACE_SIZE
 
-        self.coordinates = [x, y]
+        self.coordinates = [x, y] #tároljuk az érték koordinátáit
 
-        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
+        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")  #legömbölyítés, a vászonra elhelyezzük az ételt
+
+#Classokat tegyük felülre
 
 
 class Snake:
 
     def __init__(self):
-        self.body_size = BODY_PARTS
-        self.coordinates = []
-        self.squares = []
+        self.body_size = BODY_PARTS #kezdeti testrész érték
+        self.coordinates = [] #kígyó testrészének koordinátái
+        self.squares = [] #kígyó négyzetekre történő megjelenítés
 
-        for i in range(0, BODY_PARTS):
-            self.coordinates.append([0, 0])
+        for i in range(0, BODY_PARTS): 
+            self.coordinates.append([0, 0]) #Beállítjuk a testrészek koordinátáit
 
         for x, y in self.coordinates:
-            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag="snake")
+            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag="snake") 
             self.squares.append(square)
+
+
+GAME_WIDTH = 900 #szelesség (Ablak mérete)
+GAME_HEIGHT = 900 #hosszúság(Ablak mérete)
+SPEED = 200 #(Kígyó gyorsasága)
+SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
+BODY_PARTS = 4 #Beállíthatjuk a 
+SNAKE_COLOR = "#0b99e0" #Kígyó színe
+FOOD_COLOR = "#FF0000" #Étel színe
+BACKGROUND_COLOR = "#83eb13" #Ablak színe
+
 
 
 def next_turn(snake, food):
@@ -65,7 +68,7 @@ def next_turn(snake, food):
 
         score += 1
 
-        label.config(text="Pontszám:{}".format(score))
+        label.config(text="Score:{}".format(score))
 
         canvas.delete("food")
 
@@ -124,17 +127,17 @@ def game_over():
 
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
-                       font=('consolas',70), text="GAME OVER", fill="blue", tag="gameover")
+                       font=('consolas',70), text="GAME OVER", fill="red", tag="gameover")
 
 
 window = Tk()
-window.title("Kígyós játék")
+window.title("Snake game")
 window.resizable(False, False)
 
 score = 0
-direction = 'down'
+direction = 'right'
 
-label = Label(window, text="Pontszám:{}".format(score), font=('consolas', 40))
+label = Label(window, text="Score:{}".format(score), font=('consolas', 40))
 label.pack()
 
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
@@ -150,12 +153,12 @@ screen_height = window.winfo_screenheight()
 x = int((screen_width/2) - (window_width/2))
 y = int((screen_height/2) - (window_height/2))
 
-window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+window.geometry(f"{window_width}x{window_height}+{x}+{y}") 
 
-window.bind('<Left>', lambda left: change_direction('left'))
-window.bind('<Right>', lambda right: change_direction('right'))
-window.bind('<Up>', lambda up: change_direction('up'))
-window.bind('<Down>', lambda down: change_direction('down'))
+window.bind('<Left>', lambda event: change_direction('left'))
+window.bind('<Right>', lambda event: change_direction('right'))
+window.bind('<Up>', lambda event: change_direction('up'))
+window.bind('<Down>', lambda event: change_direction('down'))
 
 snake = Snake()
 food = Food()
