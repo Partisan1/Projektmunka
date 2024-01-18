@@ -1,16 +1,6 @@
 from tkinter import *
 import random
 
-GAME_WIDTH = 900 #szelesség (Ablak mérete)
-GAME_HEIGHT = 900 #hosszúság(Ablak mérete)
-SPEED = 200 #(Kígyó gyorsasága)
-SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
-BODY_PARTS = 4 #Beállíthatjuk a 
-SNAKE_COLOR = "#0b99e0" #Kígyó színe
-FOOD_COLOR = "#FF0000" #Étel színe
-BACKGROUND_COLOR = "#000000" #Ablak színe
-
-
 
 
 class Food:
@@ -35,11 +25,22 @@ class Snake:
         self.squares = [] #kígyó négyzetekre történő megjelenítés
 
         for i in range(0, BODY_PARTS): 
-            self.coordinates.append([0, 0])
+            self.coordinates.append([0, 0]) #Beállítjuk a testrészek koordinátáit
 
         for x, y in self.coordinates:
-            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag="snake")
+            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag="snake") 
             self.squares.append(square)
+
+
+GAME_WIDTH = 900 #szelesség (Ablak mérete)
+GAME_HEIGHT = 900 #hosszúság(Ablak mérete)
+SPEED = 200 #(Kígyó gyorsasága)
+SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
+BODY_PARTS = 4 #Beállíthatjuk a 
+SNAKE_COLOR = "#0b99e0" #Kígyó színe
+FOOD_COLOR = "#FF0000" #Étel színe
+BACKGROUND_COLOR = "#000000" #Ablak színe
+
 
 
 def next_turn(snake, food):
@@ -134,7 +135,7 @@ window.title("Snake game")
 window.resizable(False, False)
 
 score = 0
-direction = 'down'
+direction = 'right'
 
 label = Label(window, text="Score:{}".format(score), font=('consolas', 40))
 label.pack()
