@@ -39,7 +39,7 @@ SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
 BODY_PARTS = 4 #Beállíthatjuk a 
 SNAKE_COLOR = "#0b99e0" #Kígyó színe
 FOOD_COLOR = "#FF0000" #Étel színe
-BACKGROUND_COLOR = "#000000" #Ablak színe
+BACKGROUND_COLOR = "#83eb13" #Ablak színe
 
 
 
