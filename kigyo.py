@@ -92,6 +92,8 @@ def next_turn(snake, food):
         window.after(SPEED, next_turn, snake, food)
 
 
+
+#Mozgatás
 def change_direction(new_direction):
 
     global direction
