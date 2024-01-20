@@ -47,9 +47,10 @@ BACKGROUND_COLOR = "#83eb13" #Ablak színe
 
 
 def next_turn(snake, food):
-
+    # A kígyó fejének koordinátái
     x, y = snake.coordinates[0]
 
+    # Az irány alapján a következő pozíció kiszámolása
     if direction == "up":
         y -= SPACE_SIZE
     elif direction == "down":
@@ -59,75 +60,86 @@ def next_turn(snake, food):
     elif direction == "right":
         x += SPACE_SIZE
 
+    # Az új fej pozíciójának hozzáadása a kígyó koordinátáihoz
     snake.coordinates.insert(0, (x, y))
 
+    # Új négyzet létrehozása a kígyó új fejének grafikus reprezentációjaként
     square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=random_color)
 
+    # Az új négyzet hozzáadása a kígyó négyzeteihez
     snake.squares.insert(0, square)
 
+    # Étel elfogyasztásának ellenőrzése
     if x == food.coordinates[0] and y == food.coordinates[1]:
-
+        # Pontszám növelése
         global score
-
         score += 1
-
+        # Pontszám kijelzése az ablakon
         label.config(text="Pontszám:{}".format(score))
-
+        # Az ételek eltávolítása és új étel létrehozása
         canvas.delete("food")
-
         food = Food()
-
     else:
-
+        # Ha nem ette meg az almát akkor távolítsa el a kígyó farok részét
         del snake.coordinates[-1]
-
         canvas.delete(snake.squares[-1])
-
         del snake.squares[-1]
 
+    # Ütközés ellenőrzése
     if check_collisions(snake):
+        # Ha ütközés van, akkor játék vége
         game_over()
-
     else:
+        # Ha nincs ütközés, hívja meg újra a függvényt a következő lépéshez
         window.after(SPEED, next_turn, snake, food)
 
 
 
-#Mozgatás
 def change_direction(new_direction):
-
+    # Globális változó 'direction' használata
     global direction
 
+    # Irányváltás balra
     if new_direction == 'left':
+        # Csak akkor változtatjuk meg az irányt balra, ha jelenlegi irány nem jobbra mutat
         if direction != 'right':
             direction = new_direction
+    # Irányváltás jobbra
     elif new_direction == 'right':
+        # Csak akkor változtatjuk meg az irányt jobbra, ha jelenlegi irány nem balra mutat
         if direction != 'left':
             direction = new_direction
+    # Irányváltás felfelé
     elif new_direction == 'up':
+        # Csak akkor változtatjuk meg az irányt felfelé, ha jelenlegi irány nem lefelé mutat
         if direction != 'down':
             direction = new_direction
+    # Irányváltás lefelé
     elif new_direction == 'down':
+        # Csak akkor változtatjuk meg az irányt lefelé, ha jelenlegi irány nem felfelé mutat
         if direction != 'up':
             direction = new_direction
 
 
 def check_collisions(snake):
-
+    # A kezéspont a kígyónak
     x, y = snake.coordinates[0]
 
+    # Ellenőrzi, hogy a kígyó feje kilépett-e a megadott pályáról
     if x < 0 or x >= GAME_WIDTH:
         return True
     elif y < 0 or y >= GAME_HEIGHT:
         return True
 
+    # Ellenőrzi, hogy a kígyó feje ütközik-e a testével
     for body_part in snake.coordinates[1:]:
         if x == body_part[0] and y == body_part[1]:
             return True
 
+    # Ha nincs ütközés, akkor a játék folytatódhat
     return False
 
-
+#A játék vége
 def game_over():
 
     canvas.delete(ALL)
@@ -142,6 +154,7 @@ window.resizable(False, False)
 score = 0
 direction = 'right'
 
+# Pontszám kijelző létrehozása és beállítása
 label = Label(window, text="Pontszám:{}".format(score), font=('consolas', 40))
 label.config(bg= "red")
 label.pack(fill = BOTH, expand=YES)
@@ -151,6 +164,7 @@ canvas.pack()
 
 window.update()
 
+# Ablak pozíciójának beállítása középre
 window_width = window.winfo_width()
 window_height = window.winfo_height()
 screen_width = window.winfo_screenwidth()
@@ -160,7 +174,7 @@ x = int((screen_width/2) - (window_width/2))
 y = int((screen_height/2) - (window_height/2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}") 
-
+# Irányváltás billentyűzetes eseményekre
 window.bind('<a>', lambda event: change_direction('left'))
 window.bind('<d>', lambda event: change_direction('right'))
 window.bind('<w>', lambda event: change_direction('up'))
