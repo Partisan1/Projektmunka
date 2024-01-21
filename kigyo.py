@@ -45,6 +45,7 @@ FOOD_COLOR = "#FF0000" #Étel színe
 BACKGROUND_COLOR = "#83eb13" #Ablak színe
 
 #Barnabás
+#******************************************************************************************************************
 
 def next_turn(snake, food):
     # A kígyó fejének koordinátái
@@ -119,8 +120,9 @@ def change_direction(new_direction):
         # Csak akkor változtatjuk meg az irányt lefelé, ha jelenlegi irány nem felfelé mutat
         if direction != 'up':
             direction = new_direction
-
 #Roland
+#******************************************************************************************************************
+
 
 def check_collisions(snake):
     # A kezéspont a kígyónak
@@ -181,6 +183,7 @@ window.bind('<d>', lambda event: change_direction('right'))
 window.bind('<w>', lambda event: change_direction('up'))
 window.bind('<s>', lambda event: change_direction('down'))
 #Enikő
+#******************************************************************************************************************
 
 snake = Snake()
 food = Food()
