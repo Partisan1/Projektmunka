@@ -1,6 +1,5 @@
 from tkinter import *
 import random
-from tkinter import simpledialog, messagebox
 #0b99e0  
 
 
@@ -17,7 +16,7 @@ class Food:
 
 #Classokat tegyük felülre
 
-random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))#kígyó színének randomizálása
+random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))
 class Snake:
 
             
@@ -36,37 +35,14 @@ class Snake:
             self.squares.append(square) #lista, ami a kígyó négyzeteit tartalmazza
 
 
-GAME_WIDTH = 900 #szelesség (Ablak mérete)
-GAME_HEIGHT = 900 #hosszúság(Ablak mérete)
-SPEED = 200 #(Kígyó gyorsasága)
+GAME_WIDTH = 900
+GAME_HEIGHT = 900 
+SPEED = 200 
 SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
 BODY_PARTS = 4 #Beállíthatjuk a 
 LABEL_BG_COLOR = "#83eb13" 
 FOOD_COLOR = "#FF0000" #Étel színe
 BACKGROUND_COLOR = "#83eb13" #Ablak színe
-user_speed = 50  # Alapértelmezett sebesség, amit felhasználótól fogunk majd kérni
-
-def set_speed():
-    global user_speed
-    speed_input = simpledialog.askinteger("Sebesség beállítása", "Kérem adja meg a kígyó sebességét (pl. 200):", initialvalue=user_speed)
-    
-    if speed_input is not None:
-        user_speed = speed_input
-
-def start_game():
-     global score, direction
-     score = 0
-     direction = 'right'
-
-     canvas.delete("all")
-     label.config(text="Pontszám:{}".format(score))
-
-     if user_speed is not None:
-        snake = Snake()
-        food = Food()
-        next_turn(snake, food)
-     else:
-        messagebox.showinfo("Info", "Please set the snake speed before starting the game.")
 
 #Barnabás
 #******************************************************************************************************************
@@ -99,8 +75,10 @@ def next_turn(snake, food):
         # Pontszám növelése
         global score
         score += 1
-        # Pontszám kijelzése az ablakon
+        
+
         label.config(text="Pontszám:{}".format(score))
+
         # Az ételek eltávolítása és új étel létrehozása
         canvas.delete("food")
         food = Food()
@@ -124,6 +102,7 @@ def change_direction(new_direction):
     # Globális változó 'direction' használata
     global direction
 
+    #Irányváltások****************************************
     # Irányváltás balra
     if new_direction == 'left':
         # Csak akkor változtatjuk meg az irányt balra, ha jelenlegi irány nem jobbra mutat
@@ -149,7 +128,7 @@ def change_direction(new_direction):
 
 
 def check_collisions(snake):
-    # A kezéspont a kígyónak
+    # A kedzéspont a kígyónak
     x, y = snake.coordinates[0]
 
     # Ellenőrzi, hogy a kígyó feje kilépett-e a megadott pályáról
@@ -204,7 +183,7 @@ window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 #Enikő
 #******************************************************************************************************************
 
-# Irányváltás billentyűzetes eseményekre
+# Irányváltás (bal, jobb, le, fel)
 window.bind('<a>', lambda left: change_direction('left'))
 window.bind('<d>', lambda right: change_direction('right'))
 window.bind('<w>', lambda up: change_direction('up'))
@@ -218,8 +197,4 @@ food = Food()
 
 next_turn(snake, food)
 
-set_speed()
-window.after(user_speed, next_turn, snake, food,)
-start_button = Button(window, text="Start Game", command=start_game)
-start_button.pack()
 window.mainloop()
