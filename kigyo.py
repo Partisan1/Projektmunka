@@ -4,6 +4,16 @@ import random
 #0b99e0  
 
 
+GAME_WIDTH = 900
+GAME_HEIGHT = 900 
+SPEED = 200 
+SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
+BODY_PARTS = 4 #Beállíthatjuk a 
+LABEL_BG_COLOR = "#83eb13" 
+FOOD_COLOR = "#FF0000" #Étel színe
+BACKGROUND_COLOR = "#83eb13" #Ablak színe
+
+
 class Food:
 
     def __init__(self):
@@ -35,17 +45,6 @@ class Snake:
             square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=random_color, tag="kigyo") #létrehozza a téglalapokat a megadott koordinátán, random színű lesz a kígyó
             self.squares.append(square) #lista, ami a kígyó négyzeteit tartalmazza
             
-
-
-GAME_WIDTH = 900
-GAME_HEIGHT = 900 
-SPEED = 200 
-SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
-BODY_PARTS = 4 #Beállíthatjuk a 
-LABEL_BG_COLOR = "#83eb13" 
-FOOD_COLOR = "#FF0000" #Étel színe
-BACKGROUND_COLOR = "#83eb13" #Ablak színe
-
 #Barnabás
 #******************************************************************************************************************
 
