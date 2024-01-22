@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+from tkinter import simpledialog, messagebox
 #0b99e0  
 
 
@@ -16,7 +17,7 @@ class Food:
 
 #Classokat tegyük felülre
 
-random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))
+random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))#kígyó színének randomizálása
 class Snake:
 
             
@@ -43,6 +44,29 @@ BODY_PARTS = 4 #Beállíthatjuk a
 LABEL_BG_COLOR = "#83eb13" 
 FOOD_COLOR = "#FF0000" #Étel színe
 BACKGROUND_COLOR = "#83eb13" #Ablak színe
+user_speed = 50  # Alapértelmezett sebesség, amit felhasználótól fogunk majd kérni
+
+def set_speed():
+    global user_speed
+    speed_input = simpledialog.askinteger("Sebesség beállítása", "Kérem adja meg a kígyó sebességét (pl. 200):", initialvalue=user_speed)
+    
+    if speed_input is not None:
+        user_speed = speed_input
+
+def start_game():
+     global score, direction
+     score = 0
+     direction = 'right'
+
+     canvas.delete("all")
+     label.config(text="Pontszám:{}".format(score))
+
+     if user_speed is not None:
+        snake = Snake()
+        food = Food()
+        next_turn(snake, food)
+     else:
+        messagebox.showinfo("Info", "Please set the snake speed before starting the game.")
 
 #Barnabás
 #******************************************************************************************************************
@@ -194,4 +218,8 @@ food = Food()
 
 next_turn(snake, food)
 
+set_speed()
+window.after(user_speed, next_turn, snake, food,)
+start_button = Button(window, text="Start Game", command=start_game)
+start_button.pack()
 window.mainloop()
