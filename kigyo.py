@@ -1,6 +1,6 @@
 from tkinter import *
-import random
 from tkinter import simpledialog, messagebox
+import random
 #0b99e0  
 
 
@@ -34,6 +34,7 @@ class Snake:
             random_color = "#{:06x}".format(random.randint(0,0xFFFFFF)) #"{:06x}".format() rész a számot hexadecimális formába alakítja hat karakter hosszúságú sztringgé. ez lesz í kígyó random színe
             square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=random_color, tag="kigyo") #létrehozza a téglalapokat a megadott koordinátán, random színű lesz a kígyó
             self.squares.append(square) #lista, ami a kígyó négyzeteit tartalmazza
+            
 
 
 GAME_WIDTH = 900 #szelesség (Ablak mérete)
@@ -44,29 +45,6 @@ BODY_PARTS = 4 #Beállíthatjuk a
 LABEL_BG_COLOR = "#83eb13" 
 FOOD_COLOR = "#FF0000" #Étel színe
 BACKGROUND_COLOR = "#83eb13" #Ablak színe
-user_speed = 50  # Alapértelmezett sebesség, amit felhasználótól fogunk majd kérni
-
-def set_speed():
-    global user_speed
-    speed_input = simpledialog.askinteger("Sebesség beállítása", "Kérem adja meg a kígyó sebességét (pl. 200):", initialvalue=user_speed)
-    
-    if speed_input is not None:
-        user_speed = speed_input
-
-def start_game():
-     global score, direction
-     score = 0
-     direction = 'right'
-
-     canvas.delete("all")
-     label.config(text="Pontszám:{}".format(score))
-
-     if user_speed is not None:
-        snake = Snake()
-        food = Food()
-        next_turn(snake, food)
-     else:
-        messagebox.showinfo("Info", "Please set the snake speed before starting the game.")
 
 #Barnabás
 #******************************************************************************************************************
@@ -154,6 +132,7 @@ def check_collisions(snake):
 
     # Ellenőrzi, hogy a kígyó feje kilépett-e a megadott pályáról
     if x < 0 or x >= GAME_WIDTH:
+        game_over()
         return True
     elif y < 0 or y >= GAME_HEIGHT:
         return True
@@ -161,6 +140,8 @@ def check_collisions(snake):
     # Ellenőrzi, hogy a kígyó feje ütközik-e a testével
     for body_part in snake.coordinates[1:]:
         if x == body_part[0] and y == body_part[1]:
+            game_over()
+            snake = 0
             return True
 
     # Ha nincs ütközés, akkor a játék folytatódhat
@@ -168,10 +149,30 @@ def check_collisions(snake):
 
 #A játék vége
 def game_over():
-
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
-    font=('consolas',70), text="GAME OVER", fill="red", tag="gameover")
+                       font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
+    
+    # Visszaszámlálás indítása 3 másodpercig, majd meghívjuk a start_game()-t a játék újrakezdéséhez
+    window.after(3000, start_game)
+
+
+def start_game():
+     global score, direction
+     score = 0
+     direction = 'right'
+
+     canvas.delete("all")
+     label.config(text="Pontszám:{}".format(score))
+    
+     # Új kígyó és étel létrehozása
+     global snake, food
+     snake = Snake()
+     food = Food()
+
+     # Az új játék indítása
+     next_turn(snake, food)
+
 
 
 window = Tk()
@@ -212,14 +213,9 @@ window.bind('<s>', lambda down: change_direction('down'))
 #Barnabás
 #******************************************************************************************************************
 
-
 snake = Snake()
 food = Food()
 
 next_turn(snake, food)
 
-set_speed()
-window.after(user_speed, next_turn, snake, food,)
-start_button = Button(window, text="Start Game", command=start_game)
-start_button.pack()
 window.mainloop()
