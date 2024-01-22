@@ -1,5 +1,8 @@
 from tkinter import *
+<<<<<<< HEAD
 from tkinter import simpledialog, messagebox
+=======
+>>>>>>> 02c032c4194c875475c3655666a5d8da26dfb420
 import random
 #0b99e0  
 
@@ -17,7 +20,7 @@ class Food:
 
 #Classokat tegyük felülre
 
-random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))#kígyó színének randomizálása
+random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))
 class Snake:
 
             
@@ -37,9 +40,9 @@ class Snake:
             
 
 
-GAME_WIDTH = 900 #szelesség (Ablak mérete)
-GAME_HEIGHT = 900 #hosszúság(Ablak mérete)
-SPEED = 200 #(Kígyó gyorsasága)
+GAME_WIDTH = 900
+GAME_HEIGHT = 900 
+SPEED = 200 
 SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
 BODY_PARTS = 4 #Beállíthatjuk a 
 LABEL_BG_COLOR = "#83eb13" 
@@ -77,8 +80,10 @@ def next_turn(snake, food):
         # Pontszám növelése
         global score
         score += 1
-        # Pontszám kijelzése az ablakon
+        
+
         label.config(text="Pontszám:{}".format(score))
+
         # Az ételek eltávolítása és új étel létrehozása
         canvas.delete("food")
         food = Food()
@@ -102,6 +107,7 @@ def change_direction(new_direction):
     # Globális változó 'direction' használata
     global direction
 
+    #Irányváltások****************************************
     # Irányváltás balra
     if new_direction == 'left':
         # Csak akkor változtatjuk meg az irányt balra, ha jelenlegi irány nem jobbra mutat
@@ -127,7 +133,7 @@ def change_direction(new_direction):
 
 
 def check_collisions(snake):
-    # A kezéspont a kígyónak
+    # A kedzéspont a kígyónak
     x, y = snake.coordinates[0]
 
     # Ellenőrzi, hogy a kígyó feje kilépett-e a megadott pályáról
@@ -205,7 +211,7 @@ window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 #Enikő
 #******************************************************************************************************************
 
-# Irányváltás billentyűzetes eseményekre
+# Irányváltás (bal, jobb, le, fel)
 window.bind('<a>', lambda left: change_direction('left'))
 window.bind('<d>', lambda right: change_direction('right'))
 window.bind('<w>', lambda up: change_direction('up'))
