@@ -1,8 +1,5 @@
 from tkinter import *
-<<<<<<< HEAD
 from tkinter import simpledialog, messagebox
-=======
->>>>>>> 02c032c4194c875475c3655666a5d8da26dfb420
 import random
 #0b99e0  
 
