@@ -177,13 +177,17 @@ x = int((screen_width/2) - (window_width/2))
 y = int((screen_height/2) - (window_height/2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}") 
-# Irányváltás billentyűzetes eseményekre
-window.bind('<a>', lambda event: change_direction('left'))
-window.bind('<d>', lambda event: change_direction('right'))
-window.bind('<w>', lambda event: change_direction('up'))
-window.bind('<s>', lambda event: change_direction('down'))
 #Enikő
 #******************************************************************************************************************
+
+# Irányváltás billentyűzetes eseményekre
+window.bind('<a>', lambda left: change_direction('left'))
+window.bind('<d>', lambda right: change_direction('right'))
+window.bind('<w>', lambda up: change_direction('up'))
+window.bind('<s>', lambda down: change_direction('down'))
+#Barnabás
+#******************************************************************************************************************
+
 
 snake = Snake()
 food = Food()
