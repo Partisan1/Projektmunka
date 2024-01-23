@@ -28,7 +28,7 @@ class Food: #Étel random elhelyezése az x és y koordinátán
 
 random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))
 
-class Snake: #Kígyó testének létrehozása, és annak növekedése
+class Snake: #Kígyó testének létrehozása
 
             
     def __init__(self):
@@ -76,10 +76,7 @@ def next_turn(snake, food):
         # Pontszám növelése
         global score
         score += 1
-        
-
         label.config(text="Pontszám:{}".format(score))
-
         # Az ételek eltávolítása és új étel létrehozása
         canvas.delete("food")
         food = Food()
@@ -91,10 +88,8 @@ def next_turn(snake, food):
 
     # Ütközés ellenőrzése
     if check_collisions(snake):
-        # Ha ütközés van, akkor játék vége
         game_over()
     else:
-        # Ha nincs ütközés, hívja meg újra a függvényt a következő lépéshez
         window.after(SPEED, next_turn, snake, food)
 
 
@@ -105,26 +100,21 @@ def change_direction(new_direction):
     #Irányváltások****************************************
     # Irányváltás balra
     if new_direction == 'left':
-        # Csak akkor változtatjuk meg az irányt balra, ha jelenlegi irány nem jobbra mutat
         if direction != 'right':
             direction = new_direction
     # Irányváltás jobbra
     elif new_direction == 'right':
-        # Csak akkor változtatjuk meg az irányt jobbra, ha jelenlegi irány nem balra mutat
         if direction != 'left':
             direction = new_direction
     # Irányváltás felfelé
     elif new_direction == 'up':
-        # Csak akkor változtatjuk meg az irányt felfelé, ha jelenlegi irány nem lefelé mutat
         if direction != 'down':
             direction = new_direction
     # Irányváltás lefelé
     elif new_direction == 'down':
-        # Csak akkor változtatjuk meg az irányt lefelé, ha jelenlegi irány nem felfelé mutat
         if direction != 'up':
             direction = new_direction
-#Roland
-#******************************************************************************************************************
+
 
 
 def check_collisions(snake):
@@ -147,6 +137,8 @@ def check_collisions(snake):
 
     # Ha nincs ütközés, akkor a játék folytatódhat
     return False
+#Roland
+#******************************************************************************************************************
 
 #A játék vége
 def game_over():
@@ -180,6 +172,7 @@ window.resizable(False, False)
 score = 0
 direction = 'right'
 
+
 # Pontszám kijelző létrehozása és beállítása
 label = Label(window, text="Pontszám:{}".format(score), font=('consolas', 40))
 label.config(bg= "red")
@@ -199,6 +192,8 @@ canvas.pack()
 create_grid()
 
 window.update()
+#Barnabás, Roland
+#******************************************************************************************************************
 
 # Ablak pozíciójának beállítása középre
 window_width = window.winfo_width()
@@ -218,7 +213,7 @@ window.bind('<a>', lambda left: change_direction('left'))
 window.bind('<d>', lambda right: change_direction('right'))
 window.bind('<w>', lambda up: change_direction('up'))
 window.bind('<s>', lambda down: change_direction('down'))
-#Barnabás
+#Barnabás, Roland
 #******************************************************************************************************************
 
 snake = Snake()
