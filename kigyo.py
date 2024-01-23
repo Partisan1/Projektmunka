@@ -3,37 +3,37 @@ from tkinter import simpledialog, messagebox
 import random
 #0b99e0  
 
-
+#Általános paraméterek
 GAME_WIDTH = 900
 GAME_HEIGHT = 900 
 SPEED = 200 
-SPACE_SIZE = 50 #Kígyó és az étel négyzete a játékban
-BODY_PARTS = 4 #Beállíthatjuk a 
+SPACE_SIZE = 50 
+BODY_PARTS = 4 
 LABEL_BG_COLOR = "#83eb13" 
-FOOD_COLOR = "#FF0000" #Étel színe
-BACKGROUND_COLOR = "#83eb13" #Ablak színe
+FOOD_COLOR = "#FF0000" 
+BACKGROUND_COLOR = "#83eb13" 
 
 
-class Food:
+class Food: #Étel random elhelyezése az x és y koordinátán
 
     def __init__(self):
 
-        x = random.randint(0, (GAME_WIDTH / SPACE_SIZE)-1) * SPACE_SIZE #véletlenszerű étel generálás az x és y koordinátán a felületen.
+        x = random.randint(0, (GAME_WIDTH / SPACE_SIZE)-1) * SPACE_SIZE 
         y = random.randint(0, (GAME_HEIGHT / SPACE_SIZE)-1) * SPACE_SIZE
 
-        self.coordinates = [x, y] #tároljuk az érték koordinátáit
+        self.coordinates = [x, y] 
 
-        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")  #legömbölyítés, a vászonra elhelyezzük az ételt
+        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")  
 
-#Classokat tegyük felülre
 
 random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))
-class Snake:
+
+class Snake: #Kígyó testének létrehozása, és annak növekedése
 
             
     def __init__(self):
         self.body_size = BODY_PARTS #kezdeti testrész érték
-        self.coordinates = [] #kígyó testrészének koordinátái
+        self.coordinates = [] 
         self.squares = [] #kígyó négyzetekre történő megjelenítés
     
     
@@ -41,8 +41,8 @@ class Snake:
             self.coordinates.append([0, 0]) #Beállítjuk a testrészek koordinátáit
 
         for x, y in self.coordinates: #végigmegy a self.coordinates listán
-            random_color = "#{:06x}".format(random.randint(0,0xFFFFFF)) #"{:06x}".format() rész a számot hexadecimális formába alakítja hat karakter hosszúságú sztringgé. ez lesz í kígyó random színe
-            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=random_color, tag="kigyo") #létrehozza a téglalapokat a megadott koordinátán, random színű lesz a kígyó
+            random_color = "#{:06x}".format(random.randint(0,0xFFFFFF)) #hexadecimális, random kígyó szín
+            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=random_color, tag="kigyo") 
             self.squares.append(square) #lista, ami a kígyó négyzeteit tartalmazza
             
 #Barnabás
@@ -100,7 +100,6 @@ def next_turn(snake, food):
 
 
 def change_direction(new_direction):
-    # Globális változó 'direction' használata
     global direction
 
     #Irányváltások****************************************
@@ -152,13 +151,11 @@ def check_collisions(snake):
 #A játék vége
 def game_over():
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
-                       font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
-    
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
     # Visszaszámlálás indítása 3 másodpercig, majd meghívjuk a start_game()-t a játék újrakezdéséhez
     window.after(3000, start_game)
 
-
+#A játék elindítása (újrakezdése)
 def start_game():
      global score, direction
      score = 0
@@ -173,9 +170,8 @@ def start_game():
      food = Food()
 
      # Az új játék indítása
+     create_grid()
      next_turn(snake, food)
-
-
 
 window = Tk()
 window.title("Színváltó Sárkány")
@@ -189,8 +185,18 @@ label = Label(window, text="Pontszám:{}".format(score), font=('consolas', 40))
 label.config(bg= "red")
 label.pack(fill = BOTH, expand=YES)
 
+def create_grid():
+    # Vízszintes vonalak
+    for i in range(0, GAME_WIDTH, SPACE_SIZE):
+        canvas.create_line(i, 0, i, GAME_HEIGHT, fill="white")
+
+    # Függőleges vonalak
+    for i in range(0, GAME_HEIGHT, SPACE_SIZE):
+        canvas.create_line(0, i, GAME_WIDTH, i, fill="white")
+
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
+create_grid()
 
 window.update()
 
