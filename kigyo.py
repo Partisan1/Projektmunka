@@ -134,8 +134,7 @@ def check_collisions(snake):
 #Roland
 #******************************************************************************************************************
 
-
-#A játék vége
+# Újraindítjuk a játékot
 def restart_game():
     global snake, food, score, direction
 
@@ -150,11 +149,11 @@ def restart_game():
     snake = Snake()
     food = Food()
 
-    # Újraindítjuk a játékot
+    
     
     next_turn(snake, food)
     
-
+#Játék vége
 def game_over():
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
@@ -185,6 +184,8 @@ label = Label(window, text="PONTSZÁM:{}".format(score), font=('consolas', 40))
 label.config(bg= "green")
 label.pack(fill = BOTH, expand=YES)
 
+
+#Négyzetrácsozás
 def create_grid():
     light_color = "#a9e9a1"  
     dark_color = "#6fa36f"   
