@@ -22,8 +22,9 @@ class Food: #Étel random elhelyezése az x és y koordinátán
         y = random.randint(0, (GAME_HEIGHT / SPACE_SIZE)-1) * SPACE_SIZE
 
         self.coordinates = [x, y] 
+        self.cherry_image = PhotoImage(file="cseresznye.png")  # Adj meg a kép fájl nevét
 
-        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")  
+        canvas.create_image(x + SPACE_SIZE / 2, y + SPACE_SIZE / 2, image=self.cherry_image, tag="food") 
 
 
 random_color = "#{:06x}".format(random.randint(0,0xFFFFFF))
@@ -76,7 +77,7 @@ def next_turn(snake, food):
         # Pontszám növelése
         global score
         score += 1
-        label.config(text="Pontszám:{}".format(score))
+        label.config(text="PONTSZÁM:{}".format(score))
         # Az ételek eltávolítása és új étel létrehozása
         canvas.delete("food")
         food = Food()
@@ -147,6 +148,7 @@ def game_over():
     # Visszaszámlálás indítása 3 másodpercig, majd meghívjuk a start_game()-t a játék újrakezdéséhez
     window.after(3000, start_game)
 
+
 #A játék elindítása (újrakezdése)
 def start_game():
      global score, direction
@@ -154,7 +156,7 @@ def start_game():
      direction = 'right'
 
      canvas.delete("all")
-     label.config(text="Pontszám:{}".format(score))
+     label.config(text="PONTSZÁM:{}".format(score))
     
      # Új kígyó és étel létrehozása
      global snake, food
@@ -165,6 +167,7 @@ def start_game():
      create_grid()
      next_turn(snake, food)
 
+
 window = Tk()
 window.title("Színváltó Sárkány")
 window.resizable(False, False)
@@ -174,18 +177,22 @@ direction = 'right'
 
 
 # Pontszám kijelző létrehozása és beállítása
-label = Label(window, text="Pontszám:{}".format(score), font=('consolas', 40))
-label.config(bg= "red")
+label = Label(window, text="PONTSZÁM:{}".format(score), font=('consolas', 40))
+label.config(bg= "green")
 label.pack(fill = BOTH, expand=YES)
 
 def create_grid():
-    # Vízszintes vonalak
-    for i in range(0, GAME_WIDTH, SPACE_SIZE):
-        canvas.create_line(i, 0, i, GAME_HEIGHT, fill="white")
+    light_color = "#a9e9a1"  
+    dark_color = "#6fa36f"   
 
-    # Függőleges vonalak
-    for i in range(0, GAME_HEIGHT, SPACE_SIZE):
-        canvas.create_line(0, i, GAME_WIDTH, i, fill="white")
+    for i in range(0, GAME_WIDTH, SPACE_SIZE):
+        for j in range(0, GAME_HEIGHT, SPACE_SIZE):
+            # Minden második sorban és oszlopban másik szín legyen
+            if (i // SPACE_SIZE) % 2 == (j // SPACE_SIZE) % 2:
+                canvas.create_rectangle(i, j, i + SPACE_SIZE, j + SPACE_SIZE, fill=light_color)
+            else:
+                canvas.create_rectangle(i, j, i + SPACE_SIZE, j + SPACE_SIZE, fill=dark_color)
+
 
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
@@ -213,7 +220,7 @@ window.bind('<a>', lambda left: change_direction('left'))
 window.bind('<d>', lambda right: change_direction('right'))
 window.bind('<w>', lambda up: change_direction('up'))
 window.bind('<s>', lambda down: change_direction('down'))
-#Barnabás, Roland
+#Barnabás
 #******************************************************************************************************************
 
 snake = Snake()
