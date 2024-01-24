@@ -119,53 +119,58 @@ def change_direction(new_direction):
 
 
 def check_collisions(snake):
-    # A kedzéspont a kígyónak
     x, y = snake.coordinates[0]
 
-    # Ellenőrzi, hogy a kígyó feje kilépett-e a megadott pályáról
     if x < 0 or x >= GAME_WIDTH:
-        game_over()
         return True
     elif y < 0 or y >= GAME_HEIGHT:
         return True
 
-    # Ellenőrzi, hogy a kígyó feje ütközik-e a testével
     for body_part in snake.coordinates[1:]:
         if x == body_part[0] and y == body_part[1]:
-            game_over()
-            snake = 0
             return True
 
-    # Ha nincs ütközés, akkor a játék folytatódhat
     return False
 #Roland
 #******************************************************************************************************************
 
+
 #A játék vége
+def restart_game():
+    global snake, food, score, direction
+
+    # Töröljük a korábbi kígyót, ételt és eredményt
+    canvas.delete(ALL)
+    score = 0
+    direction = 'right'
+    label.config(text="Score:{}".format(score))
+
+    # Új kígyó és étel létrehozása
+    create_grid()
+    snake = Snake()
+    food = Food()
+
+    # Újraindítjuk a játékot
+    
+    next_turn(snake, food)
+    
+
 def game_over():
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
-    # Visszaszámlálás indítása 3 másodpercig, majd meghívjuk a start_game()-t a játék újrakezdéséhez
-    window.after(3000, start_game)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
+                       font=('consolas',70), text="GAME OVER", fill="red", tag="gameover")
 
+    # Hozzáadjuk a "Press R to restart" szöveget
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2 + 100,
+                       font=('consolas',20), text="Press R to restart", fill="white", tag="restart_prompt")
 
-#A játék elindítása (újrakezdése)
-def start_game():
-     global score, direction
-     score = 0
-     direction = 'right'
+    # Meghívjuk a restart_game függvényt a 'r' gomb lenyomásakor
+    window.bind('r', lambda event: restart_game())
 
-     canvas.delete("all")
-     label.config(text="PONTSZÁM:{}".format(score))
-    
-     # Új kígyó és étel létrehozása
-     global snake, food
-     snake = Snake()
-     food = Food()
+# ...
 
-     # Az új játék indítása
-     create_grid()
-     next_turn(snake, food)
+# Hozzáadjuk a billentyűzet eseményfigyelőt a 'r' gombhoz
+    window.bind('r', lambda event: restart_game())
 
 
 window = Tk()
