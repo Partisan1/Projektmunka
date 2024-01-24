@@ -167,7 +167,6 @@ def game_over():
     # Meghívjuk a restart_game függvényt a 'r' gomb lenyomásakor
     window.bind('r', lambda event: restart_game())
 
-# ...
 
 # Hozzáadjuk a billentyűzet eseményfigyelőt a 'r' gombhoz
     window.bind('r', lambda event: restart_game())
